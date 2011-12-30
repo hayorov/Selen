@@ -1,0 +1,1 @@
+java -jar c:\selenium\selenium-server-standalone-2.9.0.jar -role hub -hubConfig hub.json

@@ -1,0 +1,61 @@
+#!/usr/bin/php
+<?php 
+
+// получаем аргументы для старта
+if (is_array($argv)) {
+    // проверяем чтобы у ключей были значения
+    if (fmod (count($argv),2) == 0) exit('Exit! Bad args, check syntax.'.PHP_EOL);
+    else {
+        for($i=1;$i<count($argv);$i=$i+2){
+                if ($argv[$i] == '--loglevel') { 
+                    switch ($argv[$i+1]) {
+                        case 'CRIT': $loglevel='CRIT';
+                        break;
+                        case 'ALL': $loglevel='ALL';
+                        break;
+                        case 'DEBUG': $loglevel='DEBUG';
+                        break;
+                        default: echo '--loglevel arg ignored'.PHP_EOL;
+                        }
+                }
+                if ($argv[$i] == '--proc') { 
+                    if ($argv[$i+1] >0 && $argv[$i+1] < 100) {
+                        $proc = $argv[$i+1];
+                    }
+                    else {
+                        echo '--proc arg ignored'.PHP_EOL; 
+                    }
+                }
+        }
+    }
+}
+
+// ЗНАЧЕНИЯ ПО-УМОЛЧАНИЮ 
+if (!isset($loglevel)) $loglevel = 'ALL'; // уровень логирования
+if (!isset($proc)) $proc = 10; // число дочерних процессов
+
+set_time_limit (0);
+$child_pid = pcntl_fork();
+
+// создаем дочерний процесс
+if( $child_pid ) {
+    // выходим из родительского, привязанного к консоли, процесса
+    exit;  
+}
+// подключаем библиотеки
+  
+posix_setsid();
+$stop_server = FALSE;
+$baseDir = dirname(__FILE__).'/logs';
+ini_set('error_log',$baseDir.'/error.log');
+fclose(STDIN);
+fclose(STDOUT);
+fclose(STDERR);
+$STDIN = fopen('/dev/null', 'r');
+$STDOUT = fopen($baseDir.'/application.log', 'ab');
+$STDERR = fopen($baseDir.'/daemon.log', 'ab');
+include 'classes/DaemonClass.php';
+$daemon = new DaemonClass($loglevel,$proc);
+$daemon->run(); 
+  
+?>

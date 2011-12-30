@@ -1,0 +1,110 @@
+﻿[Selen Test]
+; Тест для selen
+id=003;
+name="Hosting for exist domain = full rand";
+description="мастер заказа услуги хостинга для существующего домена с полным случаным выбором параметров";
+
+; имя файла скрипта для запуска
+script="dummy.php";
+
+
+; критерий успешности 
+totalsuccess=0.01; 0.01 (1%) - 1.00 (100%) не менее, критерий общего успеха теста 
+; например  у нашем тесте 10 шагов (traces)
+; если выставить 1, тест считается успешным в случае успешных всех 10 шагов
+; выставить 0.5 тест будет успешным в случае 5 или более успешных шагов
+; шаги типа INFO не учитываются
+; тест однозначно считается провальным если у элемента или группы в которую он входит выставлен флаг приоритета
+
+[Selen Test Input]
+; в данной секции хранятся значения переменных для теста
+
+auth_url=www.reg.ru;
+auth_login=;
+auth_pass=;
+
+
+start_url=reg.ru/hosting/;
+shop_card_url="shopcart/add";
+pre_orded_page="hosting/order";
+hosting_page_title="Хостинг от REG.RU — надежный платный виртуальный хостинг сайтов | REG.RU";
+order_end_marker="Заявка принята";
+
+tariff=host_lite_0910^^host_0_0910^^host_1_1209^^host_2_1209^^host_3_1209^^host_cms_1209;
+;host_lite_0910
+;host_0_0910
+;host_1_1209
+;host_2_1209
+;host_3_1209
+;host_cms_1209
+
+period=1^^2^^3^^6^^12^^18^^24;
+;1
+;2
+;3
+;6
+;12
+;18
+;24
+
+autopay=0^^1;
+;1
+;0
+
+panel=servtype_srv_hosting_plesk^^servtype_srv_hosting_ispmgr^^servtype_srv_hosting_cpanel^^servtype_srv_hosting_dctadm;
+;servtype_srv_hosting_plesk
+;servtype_srv_hosting_ispmgr
+;servtype_srv_hosting_cpanel
+;servtype_srv_hosting_dctadm
+
+dname_value="FUNC::domain_generator(RAND,RU,false)";
+; домен
+is_spam_on=0^^1; 
+;0
+;1
+
+spam_action=MARK^^DELETE;
+;DELETE
+;MARK
+
+is_ip_on=0^^1;
+;0
+;1
+
+ip_period=1^^2^^3^^6^^12^^18^^24;
+;1
+;2
+;3
+;6
+;12
+;18
+;24
+
+ip_count=1^^2^^3^^4^^5^^10;
+;1
+;2
+;3
+;4
+;5
+;10
+
+
+[Selen Groups]
+; default = 0; группа по умолчанию, не приводит к завершению теста в случае сваливания
+; в данной группе находятся все элементы, у которых не определена группа
+auth_group=1;
+
+
+[Selen Elements in Group]
+auth_group = name:login ^ id:header-password ^ id:header-submit ^ id:user_login;
+
+
+[Selen Elements Caps]
+; важно обязательно найти тариф
+cssSelector:servtype_srv_hosting_plesk=1;
+
+
+
+
+
+?>

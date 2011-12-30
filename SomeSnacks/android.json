@@ -1,0 +1,19 @@
+{ 
+    'class': 'org.openqa.grid.common.RegistrationRequest', 
+    'capabilities': [ 
+        { 'browserName':'android', 'maxInstances':1, 'platform':'LINUX' } 
+    ], 
+    'configuration': { 
+        'port': 8080, 
+        'register': True, 
+        'host': 'localhost', 
+        'proxy': 'org.openqa.grid.selenium.proxy.WebDriverRemoteProxy', 
+        'maxSession':1, 
+        'hubHost': 'localhost', 
+        'role': 'webdriver', 
+        'registerCycle':5000, 
+        'hub': 'http://localhost:8888/grid/register', 
+        'hubPort':8888, 
+        'url':'http://localhost:8080/wd/hub' 
+    } 
+} 
