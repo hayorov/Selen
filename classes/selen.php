@@ -38,7 +38,7 @@ class SelenBase extends WebDriverExt{
                                 'platform'=> $testEnv['platform'],
                                 );                  
         if (!$this->storage) 
-            $this->storage = new StorageBase('main.db'); // see method AddStep
+        $this->storage = new StorageBase('main.db'); // see method AddStep
         $this->testPlan->testID=$this->storage->createTest($qID);
         $this->testPlan->qID=$qID;  
         self::setTest($testFile);   

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 Тест заказ услуги хостинга для существующего домена
 */
@@ -9,7 +9,7 @@ $this->execPattern('regru_auth_header');
 // открываем первую страницу мастера
 self::get('http://'.$this->inputData['start_url']);
 
-// проверяем её достпность
+// проверяем её доступность
 if ($this->getTitle() !== $this->inputData['hosting_page_title']) $this->addStatus('Страница недоступна', FALSE);
 
 // выбираем тариф

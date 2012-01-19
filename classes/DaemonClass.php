@@ -35,7 +35,7 @@ class DaemonClass {
     }
     // функция логирования
     public function addLog($logtext,$loglevel) {
-               if ($loglevel <= $this->logLevel) echo date("[h:i:s Y/m/d] ").$logtext.PHP_EOL;  
+               if ($loglevel <= $this->logLevel) echo date("[H:i:s Y/m/d] ").$logtext.PHP_EOL;  
     }
     public function run() {
         $this->addLog("Running daemon controller",1);
@@ -51,9 +51,9 @@ class DaemonClass {
                  sleep(1);
             }
            $qID=$storage->getTaskFromQueue();
-           if (isset($qID[0]['qID'])){
-           $this->addLog('Exec tack with qID='.$qID[0]['qID'],1);
-           $this->launchJob($qID[0]['qID']);
+           if (is_numeric($qID)){
+           $this->addLog('Exec tack with qID='.$qID);
+           $this->launchJob($qID);
            }
            else $this->addLog("no jobs",2);
            sleep(2);
